@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHARMCI - Trouvez votre pharmacie en Côte d'Ivoire</title>
+    <meta name="description" content="Trouvez rapidement une pharmacie ouverte près de chez vous en Côte d'Ivoire. Service disponible 24h/24, plus de 500 pharmacies répertoriées.">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    
+    <!-- style css-->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Éléments flottants décoratifs -->
+    <div class="floating-elements">
+        <div class="floating-pill" style="left: 10%; animation-delay: 0s;">💊</div>
+        <div class="floating-pill" style="left: 20%; animation-delay: -3s;">🏥</div>
+        <div class="floating-pill" style="left: 30%; animation-delay: -6s;">💉</div>
+        <div class="floating-pill" style="left: 40%; animation-delay: -9s;">🩺</div>
+        <div class="floating-pill" style="left: 50%; animation-delay: -12s;">💊</div>
+        <div class="floating-pill" style="left: 60%; animation-delay: -2s;">🏥</div>
+        <div class="floating-pill" style="left: 70%; animation-delay: -5s;">💉</div>
+        <div class="floating-pill" style="left: 80%; animation-delay: -8s;">🩺</div>
+        <div class="floating-pill" style="left: 90%; animation-delay: -11s;">💊</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="#accueil">
+                <i class="fas fa-pills"></i>
+                PHARMCI
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="A-propos.html">A-propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pharmacies de garde </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#stats">Statistiques</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<br><br><br>
+    <!-- Hero Section -->
+    <section id="accueil" class="hero-section">
+        <div class="container">
+            <div class="hero-content animate-fade-in">
+                <h1 class="hero-title">
+                    Trouvez une pharmacie<br>
+                    <span style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ouverte près de vous</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Localisez instantanément les pharmacies ouvertes en Côte d'Ivoire.<br>
+                    Service disponible 24h/24, partout dans le pays.
+                </p>
+                <a href="#pharmacies" class="cta-button btn-micro">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    Voir les pharmacies
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Pharmacies -->
+    <section  class="pharmacies-section">
+        <div class="container">
+            <h2 class="section-title">Pharmacies disponibles</h2>
+            <p class="section-subtitle">
+                Trouvez rapidement une pharmacie ouverte dans votre région avec nos filtres intelligents et notre géolocalisation précise.
+            </p>
+
+            <!-- Barre de recherche améliorée -->
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Rechercher" 
+                    id="searchInput"
+                    autocomplete="off"
+                >
+                <button class="search-btn btn-micro" onclick="searchPharmacies()" aria-label="Rechercher">
+                <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Filtres rapides modernisés -->
+            <div class="filter-container">
+                <button class="filter-btn btn-micro" onclick="filterByLocation()" data-filter="location">
+                    <i class="fas fa-location-arrow"></i>Près de moi
+                </button>
+                <button class="filter-btn btn-micro" onclick="filterOpen()" data-filter="open">
+                    <i class="fas fa-clock"></i>Ouvertes maintenant
+                </button>
+                <button class="filter-btn btn-micro" onclick="filterGarde()" data-filter="garde">
+                    <i class="fas fa-shield-alt"></i>Pharmacies de garde
+                </button>
+                <button class="filter-btn btn-micro" onclick="clearFilters()" data-filter="clear">
+                    <i class="fas fa-times"></i>Effacer les filtres
+                </button>
+            </div>
+
+        </section>
+    <section id="pharmacies" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h2 class="section-title">Les Pharmacies</h2>
+                    <p class="section-subtitle">Découvrez notre liste de pharmacies partenaires en Côte d'Ivoire.</p>
+                </div>
+            </div>
+            <div id="pharmacies-container" class="row g-4">
+                
+            </div>
+        </div>
+    </section>
+    <!-- Section statistiques améliorée -->
+    <section id="stats" class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <i class="fas fa-hospital"></i>
+                        <h3 class="count-up" data-target="500"></h3>
+                        <p>Pharmacies répertoriées</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3 class="count-up" data-target="19"></h3>
+                        <p>Régions couvertes</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <h3>24/7</h3>
+                        <p>Service disponible</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <h3 class="count-up" data-target="1000"></h3>
+                        <p>Utilisateurs actifs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer modernisé -->
+     <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-md-start text-center mb-3 mb-md-0">
+                    <p class="footer-text mb-0">© 2025 PHARMCI. Tous droits réservés.</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center">
+                    <div class="d-inline-flex gap-3">
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Container pour les notifications -->
+    <div class="toast-container">
+        <!-- Les toasts seront ajoutés dynamiquement -->
+    </div>
+    <div class="modal fade" id="pharmacyModal" tabindex="-1" aria-labelledby="pharmacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pharmacyModalLabel">Détails de la pharmacie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalContent">
+                    <!-- Modal content will be populated here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="city.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    
+    
+
+</body>
+</html>
+    

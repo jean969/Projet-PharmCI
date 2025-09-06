@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacies PHARMCI</title>
+    <!-- Utiliser Tailwind CSS pour un style moderne et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Utiliser Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fffe;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            color: #16a34a !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #16a34a !important;
+        }
+
+        .pharmacy-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white; /* Fond blanc pour les cartes */
+            border: 1px solid #e2e8f0; /* Bordure subtile */
+        }
+        .pharmacy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px; /* Fully rounded */
+            font-weight: 600;
+        }
+        .status-open {
+            background-color: #d1fae5; /* Vert très clair */
+            color: #059669; /* Vert émeraude */
+        }
+        .status-closed {
+            background-color: #fee2e2; /* Rouge très clair */
+            color: #ef4444; /* Rouge fort */
+        }
+        .status-garde {
+            background-color: #fef3c7; /* Jaune très clair */
+            color: #d97706; /* Orange fort */
+        }
+        /* Style pour les tags de spécialités/services */
+        .specialty-tag {
+            background-color: #e5e7eb;
+            color: #4b5563;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#accueil">
+                <i class="fas fa-pills me-2"></i>
+                PHARMCI
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pharmacies">Voir les pharmacies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Connexion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section principale de la liste des pharmacies -->
+    <main class="w-full max-w-7xl mx-auto py-12 px-6 md:px-12">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
+            Liste des Pharmacies PHARMCI
+        </h1>
+        <div id="pharmacies-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Les cartes de pharmacies seront injectées ici par JavaScript -->
+        </div>
+    </main>
+    
+</body>
+</html>
