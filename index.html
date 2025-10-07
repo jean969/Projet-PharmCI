@@ -26,19 +26,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Éléments flottants décoratifs -->
-    <div class="floating-elements">
-        <div class="floating-pill" style="left: 10%; animation-delay: 0s;">💊</div>
-        <div class="floating-pill" style="left: 20%; animation-delay: -3s;">🏥</div>
-        <div class="floating-pill" style="left: 30%; animation-delay: -6s;">💉</div>
-        <div class="floating-pill" style="left: 40%; animation-delay: -9s;">🩺</div>
-        <div class="floating-pill" style="left: 50%; animation-delay: -12s;">💊</div>
-        <div class="floating-pill" style="left: 60%; animation-delay: -2s;">🏥</div>
-        <div class="floating-pill" style="left: 70%; animation-delay: -5s;">💉</div>
-        <div class="floating-pill" style="left: 80%; animation-delay: -8s;">🩺</div>
-        <div class="floating-pill" style="left: 90%; animation-delay: -11s;">💊</div>
-    </div>
-
+    
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
         <div class="container">
@@ -51,18 +39,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#accueil">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="A-propos.html">A-propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pharmacies de garde </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#stats">Statistiques</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="#accueil">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="A-propos.html">A-propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pharmacies de garde </a></li>
                 </ul>
             </div>
         </div>
@@ -135,10 +114,22 @@
                     <h2 class="section-title">Les Pharmacies</h2>
                     <p class="section-subtitle">Découvrez notre liste de pharmacies partenaires en Côte d'Ivoire.</p>
                 </div>
+                <h2>
+                    <div class="city-filter-container text-center my-4">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">Abidjan</a></li>
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">Bouaké</a></li>
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">Daloa</a></li>
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">San Pedro</a></li>
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">Korhogo</a></li>
+                            <li class="list-inline-item"><a href="#" class="btn btn-outline-primary rounded-pill mb-2">Yamoussoukro</a></li>
+
+                    </ul>
+                </div>
+                </h2>
             </div>
-            <div id="pharmacies-container" class="row g-4">
-                
-            </div>
+            
+            <div id="pharmacies-container" class="row g-4"></div>
         </div>
     </section>
     <!-- Section statistiques améliorée -->
@@ -186,17 +177,17 @@
                 </div>
                 <div class="col-md-6 text-md-end text-center">
                     <div class="d-inline-flex gap-3">
-                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
-                            <i class="fab fa-facebook-f"></i>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
-                            <i class="fab fa-twitter"></i>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
-                            <i class="fab fa-instagram"></i>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100">
-                            <i class="fab fa-linkedin"></i>
+                        <a href="#" class="text-light text-decoration-none opacity-75 hover-opacity-100" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -227,8 +218,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="city.js"></script>
     <script src="data.js"></script>
+    <script src="cityFilter.js"></script>
     <script src="script.js"></script>
     
     
