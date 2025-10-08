@@ -3,25 +3,22 @@ const pharmacyApp = (() => {
     // Variables globales (maintenues à l'intérieur de cet objet)
     let currentPharmacies = [];
     let userLocation = null;
+    const defaultData = []; // Tableau vide par défaut pour éviter les erreurs.
 
     // --- Fonctions d'initialisation et d'événements ---
     const init = () => {
-        // Vérifier que les données sont disponibles
-        if (typeof pharmaciesData === 'undefined' || pharmaciesData.length === 0) {
+        // Vérifier la disponibilité des données. Si elles ne sont pas présentes, utiliser un tableau par défaut.
+        const data = typeof pharmaciesData !== 'undefined' ? pharmaciesData : defaultData;
+        if (data.length === 0) {
             console.error('Les données des pharmacies ne sont pas disponibles. Assurez-vous que data.js est chargé.');
             return;
         }
 
-        // Initialiser l'affichage et les compteurs
-        currentPharmacies = pharmaciesData;
+        currentPharmacies = data;
         displayPharmacies(currentPharmacies);
         updateResultsCount(currentPharmacies.length);
         initializeCounters();
-
-        // Initialiser les écouteurs d'événements
         setupEventListeners();
-        
-        // Tenter d'obtenir la localisation de l'utilisateur
         getUserLocation();
     };
 
@@ -45,7 +42,6 @@ const pharmacyApp = (() => {
         if (!container) return;
 
         let pharmaciesHTML = '';
-
         if (pharmacies.length === 0) {
             pharmaciesHTML = `
                 <div class="no-results text-center p-5">
@@ -121,7 +117,8 @@ const pharmacyApp = (() => {
 
     // --- Fonctions de filtrage et de recherche ---
     const filterAndDisplayPharmacies = () => {
-        let results = [...pharmaciesData];
+        const data = typeof pharmaciesData !== 'undefined' ? pharmaciesData : defaultData;
+        let results = [...data];
         const searchInput = document.getElementById('searchInput');
         const cityFilter = document.getElementById('cityFilter');
         const serviceFilter = document.getElementById('serviceFilter');
@@ -154,7 +151,6 @@ const pharmacyApp = (() => {
         if (isGarde) {
             results = results.filter(p => getPharmacyStatus(p) === 'garde');
         }
-        
         currentPharmacies = results;
         displayPharmacies(currentPharmacies);
         updateResultsCount(currentPharmacies.length);
@@ -162,11 +158,12 @@ const pharmacyApp = (() => {
 
     // --- Fonctions utilitaires ---
     const getPharmacyById = (id) => {
-        return pharmaciesData.find(p => p.id == id);
+        const data = typeof pharmaciesData !== 'undefined' ? pharmaciesData : defaultData;
+        return data.find(p => p.id == id);
     };
     
+    // Correction de l'URL pour une navigation fiable
     const showDirections = (lat, lng) => {
-        // Correction de l'URL pour une navigation fiable
         const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
         window.open(url, '_blank');
     };
@@ -178,63 +175,49 @@ const pharmacyApp = (() => {
         const status = getPharmacyStatus(pharmacy);
         const modalContent = `
             <div class="card pharmacy-card shadow-sm p-3 mb-4 rounded-3">
-    <!-- En-tête : Nom de la pharmacie -->
-    <div class="card-header bg-success text-white d-flex align-items-center justify-content-between">
-        <h6 class="mb-0">${pharmacy.name}</h6>
-    </div>
-
-    <!-- Corps : Détails -->
-    <div class="card-body">
-        <!-- Adresse -->
-        <p class="mb-2">
-            <i class="fas fa-map-marker-alt text-primary"></i>
-            <strong> Adresse :</strong> ${pharmacy.address}
-        </p>
-
-        <!-- Téléphone -->
-        <p class="mb-2">
-            <i class="fas fa-phone text-success"></i>
-            <strong> Téléphone :</strong>
-            <a href="tel:${pharmacy.phone}" class="text-decoration-none text-dark">
-                ${pharmacy.phone}
-            </a>
-        </p>
-
-        <!-- Statut -->
-        <p class="mb-3">
-            <i class="fas fa-clock text-warning"></i>
-            <strong> Statut :</strong>
-            ${getStatusBadge(status)}
-        </p>
-
-        <!-- Horaires -->
-        <div class="pharmacy-hours">
-            <h6 class="fw-bold mb-2"><i class="fas fa-calendar-alt text-info"></i> Horaires :</h6>
-            <ul class="list-group list-group-flush small">
-                <li class="list-group-item"><strong>Lundi :</strong> ${pharmacy.hours.lundi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Mardi :</strong> ${pharmacy.hours.mardi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Mercredi :</strong> ${pharmacy.hours.mercredi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Jeudi :</strong> ${pharmacy.hours.jeudi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Vendredi :</strong> ${pharmacy.hours.vendredi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Samedi :</strong> ${pharmacy.hours.samedi || 'Non spécifié'}</li>
-                <li class="list-group-item"><strong>Dimanche :</strong> ${pharmacy.hours.dimanche || 'Non spécifié'}</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Pied : Actions -->
-    <div class="card-footer d-flex justify-content-between">
-        <button class="btn btn-primary" onclick="pharmacyApp.showDirections('${pharmacy.coordinates.lat}', '${pharmacy.coordinates.lng}')">
-            <i class="fas fa-directions"></i> Itinéraire
-        </button>
-        <a class="btn btn-success" href="tel:${pharmacy.phone}">
-            <i class="fas fa-phone"></i> Appeler
-        </a>
-    </div>
-</div>
-
+                <div class="card-header bg-success text-white d-flex align-items-center justify-content-between">
+                    <h6 class="mb-0">${pharmacy.name}</h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <i class="fas fa-map-marker-alt text-primary"></i>
+                        <strong> Adresse :</strong> ${pharmacy.address}
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-phone text-success"></i>
+                        <strong> Téléphone :</strong>
+                        <a href="tel:${pharmacy.phone}" class="text-decoration-none text-dark">
+                            ${pharmacy.phone}
+                        </a>
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-clock text-warning"></i>
+                        <strong> Statut :</strong>
+                        ${getStatusBadge(status)}
+                    </p>
+                    <div class="pharmacy-hours">
+                        <h6 class="fw-bold mb-2"><i class="fas fa-calendar-alt text-info"></i> Horaires :</h6>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item"><strong>Lundi :</strong> ${pharmacy.hours.lundi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Mardi :</strong> ${pharmacy.hours.mardi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Mercredi :</strong> ${pharmacy.hours.mercredi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Jeudi :</strong> ${pharmacy.hours.jeudi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Vendredi :</strong> ${pharmacy.hours.vendredi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Samedi :</strong> ${pharmacy.hours.samedi || 'Non spécifié'}</li>
+                            <li class="list-group-item"><strong>Dimanche :</strong> ${pharmacy.hours.dimanche || 'Non spécifié'}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="pharmacyApp.showDirections('${pharmacy.coordinates.lat}', '${pharmacy.coordinates.lng}')">
+                        <i class="fas fa-directions"></i> Itinéraire
+                    </button>
+                    <a class="btn btn-success" href="tel:${pharmacy.phone}">
+                        <i class="fas fa-phone"></i> Appeler
+                    </a>
+                </div>
+            </div>
         `;
-
         showModal('Détails de la pharmacie', modalContent);
     };
 
@@ -265,39 +248,42 @@ const pharmacyApp = (() => {
         bsModal.show();
     };
 
-const getPharmacyStatus = (pharmacy) => {
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
-    const currentDay = now.toLocaleDateString('fr-FR', { weekday: 'long' }).toLowerCase();
+    const getTodayHours = (hours) => {
+        const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const today = new Date();
+        const dayName = days[today.getDay()];
+        return hours[dayName] || 'Non spécifié';
+    };
 
-    // ✅ Afficher "garde" si la pharmacie est de garde OU si on est dimanche et qu'elle ouvre ce jour-là
-    if (pharmacy.isGarde || (currentDay === 'dimanche' && pharmacy.openDays.includes('dimanche'))) {
-        return 'garde';
-    }
+    const getPharmacyStatus = (pharmacy) => {
+        const now = new Date();
+        const dayNames = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const today = dayNames[now.getDay()];
+        const currentTimeInHours = now.getHours() + now.getMinutes() / 60;
+        const todayHours = pharmacy.hours[today];
 
-    const todayHours = pharmacy.hours[currentDay];
-    if (!todayHours || todayHours.toLowerCase() === 'fermé') {
+        // Gérer les cas où il n'y a pas d'horaires ou si elle est explicitement fermée
+        if (!todayHours || todayHours.toLowerCase() === 'fermé') {
+            return 'closed';
+        }
+
+        // Si la pharmacie est marquée "de garde" dans les données, c'est prioritaire
+        if (pharmacy.isGarde) {
+            return 'garde';
+        }
+
+        // Analyser et vérifier les horaires d'ouverture réguliers
+        const [openTime, closeTime] = todayHours.split('-').map(t => {
+            const [h, m] = t.split(':').map(Number);
+            return h + (m || 0) / 60;
+        });
+
+        if (currentTimeInHours >= openTime && currentTimeInHours <= closeTime) {
+            return 'open';
+        }
+
         return 'closed';
-    }
-
-    const [heureOuvertureStr, heureFermetureStr] = todayHours.replace(/\s*/g, '').split('-');
-    if (!heureOuvertureStr || !heureFermetureStr) {
-        return 'closed';
-    }
-
-    // ✅ Comparer l'heure actuelle avec les horaires
-    const [hOpen, mOpen] = heureOuvertureStr.split(':').map(Number);
-    const [hClose, mClose] = heureFermetureStr.split(':').map(Number);
-    const openTime = hOpen * 60 + mOpen;
-    const closeTime = hClose * 60 + mClose;
-
-    if (currentTime >= openTime && currentTime <= closeTime) {
-        return 'open';
-    }
-
-    return 'closed';
-};
-
+    };
 
     const getPharmacyStatusClass = (pharmacy) => {
         const status = getPharmacyStatus(pharmacy);
@@ -317,36 +303,41 @@ const getPharmacyStatus = (pharmacy) => {
         };
         return badges[status] || badges.closed;
     };
-
+    
+    // Animation de compteur améliorée avec IntersectionObserver
     const initializeCounters = () => {
-        const counters = document.querySelectorAll('.counter');
-        counters.forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
-            
-            const updateCounter = () => {
-                current += step;
-                if (current < target) {
-                    counter.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    counter.textContent = target;
+        const counters = document.querySelectorAll('.count-up');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    let currentCount = 0;
+                    const increment = target / 200; // Vitesse de l'animation
+
+                    const updateCount = () => {
+                        currentCount += increment;
+                        if (currentCount < target) {
+                            counter.innerText = Math.ceil(currentCount);
+                            requestAnimationFrame(updateCount);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+
+                    updateCount();
+                    observer.unobserve(counter); // Arrêter l'observation une fois l'animation terminée
                 }
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        updateCounter();
-                        observer.unobserve(entry.target);
-                    }
-                });
             });
-            
-            observer.observe(counter);
-        });
+        }, observerOptions);
+
+        counters.forEach(counter => observer.observe(counter));
     };
 
     const handleNavbarScroll = () => {
@@ -388,14 +379,16 @@ const getPharmacyStatus = (pharmacy) => {
                     }
                 },
                 (error) => {
-                    console.warn('Impossible d\'obtenir la localisation:', error);
+                    console.error("Erreur de géolocalisation:", error);
+                    // On pourrait afficher un message à l'utilisateur ici
                 }
             );
         }
     };
 
     const getNearbyPharmacies = (userLat, userLng) => {
-        const pharmaciesWithDistance = pharmaciesData.map(pharmacy => {
+        const data = typeof pharmaciesData !== 'undefined' ? pharmaciesData : defaultData;
+        const pharmaciesWithDistance = data.map(pharmacy => {
             const distance = calculateDistance(userLat, userLng, pharmacy.coordinates.lat, pharmacy.coordinates.lng);
             return { ...pharmacy, distance };
         });
@@ -423,25 +416,96 @@ const getPharmacyStatus = (pharmacy) => {
         getUserLocation,
     };
 })();
- // Animation de comptage pour les statistiques
-        document.addEventListener('DOMContentLoaded', () => {
-            const counters = document.querySelectorAll('.count-up');
-            counters.forEach(counter => {
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-target');
-                    const count = +counter.innerText;
-                    const increment = target / 200; // Vitesse de l'animation
 
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + increment);
-                        setTimeout(updateCount, 10);
-                    } else {
-                        counter.innerText = target;
-                    }
-                };
-                updateCount();
-            });
-        });
+// Fonction pour vérifier si une pharmacie est de garde
+function isPharmacieDeGarde(horaires) {
+  const aujourd_hui = new Date();
+  const jourSemaine = aujourd_hui.getDay(); // 0 = Dimanche, 6 = Samedi
+  
+  // Vérifier si c'est samedi (6) ou dimanche (0)
+  const estWeekend = jourSemaine === 0 || jourSemaine === 6;
+  
+  if (!estWeekend) {
+    return false; // Pas de garde en semaine
+  }
+  
+  const jourActuel = jourSemaine === 0 ? 'dimanche' : 'samedi';
+  
+  // Vérifier si la pharmacie a des horaires pour ce jour
+  if (!horaires[jourActuel]) {
+    return false;
+  }
+  
+  // Si elle a des horaires pour ce jour, elle est de garde
+  return horaires[jourActuel].ouvert;
+}
+
+// Fonction pour vérifier les horaires d'une pharmacie spécifique
+function verifierPharmacieDeGarde(nomPharmacie, horaires) {
+  const deGarde = isPharmacieDeGarde(horaires);
+  
+  console.log(`Pharmacie ${nomPharmacie}:`);
+  console.log(deGarde ? "✅ DE GARDE" : "❌ Pas de garde");
+  
+  return deGarde;
+}
+
+// Exemples d'utilisation
+const exemplesPharmacie = [
+  {
+    nom: "Pharmacie Central",
+    horaires: {
+      samedi: { ouvert: true, heures: "9h-18h" },
+      dimanche: { ouvert: false }
+    }
+  },
+  {
+    nom: "Pharmacie du Soleil", 
+    horaires: {
+      samedi: { ouvert: true, heures: "9h-19h" },
+      dimanche: { ouvert: true, heures: "9h-12h" }
+    }
+  },
+  {
+    nom: "Pharmacie de la Paix",
+    horaires: {
+      samedi: { ouvert: false },
+      dimanche: { ouvert: false }
+    }
+  }
+];
+
+// Tester les pharmacies
+console.log("=== VÉRIFICATION DES PHARMACIES DE GARDE ===");
+console.log(`Aujourd'hui: ${new Date().toLocaleDateString('fr-FR', { weekday: 'long' })}`);
+console.log("");
+
+exemplesPharmacie.forEach(pharmacie => {
+  verifierPharmacieDeGarde(pharmacie.nom, pharmacie.horaires);
+  console.log("");
+});
+
+// Fonction utilitaire pour ajouter une nouvelle pharmacie
+function ajouterPharmacie(nom, horairesSamedi, horairesDimanche) {
+  return {
+    nom: nom,
+    horaires: {
+      samedi: horairesSamedi,
+      dimanche: horairesDimanche
+    }
+  };
+}
+
+// Exemple d'ajout d'une nouvelle pharmacie
+const nouvellePharmacie = ajouterPharmacie(
+  "Pharmacie de Garde Plus",
+  { ouvert: true, heures: "8h-20h" },
+  { ouvert: true, heures: "9h-17h" }
+);
+
+console.log("=== NOUVELLE PHARMACIE ===");
+verifierPharmacieDeGarde(nouvellePharmacie.nom, nouvellePharmacie.horaires);
+
 
 // Initialiser l'application une fois que le DOM est chargé
 document.addEventListener('DOMContentLoaded', pharmacyApp.init);
